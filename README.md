@@ -1,16 +1,39 @@
-# pim
+# Aplikacja do przypominania o braniu leków
 
-A new Flutter project.
+Aplikacja przypomina użytkownikowi o braniu danych leków w różnych porach, umożliwia dodawanie lub usuwanie leków.
 
-## Getting Started
+## Widoki
 
-This project is a starting point for a Flutter application.
+Aplikacja będzie składać się z następujących widoków, dostępnych z poziomu menu:
 
-A few resources to get you started if this is your first Flutter project:
+- ekran główny
+    Pokazuje następną porę zażycia leków oraz jakieś inne rzeczy.
+- Lista leków
+    Lista leków, można dodawać, usuwać, edytować leki.
+    - Dodanie nowego leku
+        Widget dodania nowej pozycji do listy będzie przenosić do ekranu dodania nowego leku, gdzie będzie można dodać
+        następujące informacje:
+        - nazwa leku
+        - pory w których należy zażyć ten lek
+        - lista leków której nie można brać razem z tym lekiem (opcjonalne)
+        - notatki (opcjonalnie)
+- Kalendarz
+    Pokazuje kalendarz otwarty na aktualnym miesiącu, i dla każdego dnia wyświetla jakiś symbol jeżeli trzeba w tym dniu
+    wziąć leki. Powinny być na tyle różne symbole lub kolory aby można było wizualnie odróżnić kiedy danego dnia
+    użytkownik ma wziąć więcej/mniej leków lub inne leki. Po wybraniu dnia wyświetlić listę leków do wzięcia tego dnia
+    zgrupowane do godziny.
+- Strona "o aplikacji"
+    Pokazuje podstawowe informacje o aplikacji, nazwa, logo, wersja, autorzy, licencje
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Powiadomienia
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Aplikacja będzie w porach dnia wybranych przez użytkownika wysyłać powiadomienia o lekach do zażycia. Powiadomienia będą
+przenosić do głównego widoku aplikacji, gdzie użytkownik będzie mógł potwierdzić zażycie leków.
+
+## Modele danych:
+
+- `Drug`
+  - `name: String`
+  - `takeTimes: <DateTime>[]`
+  - `incompatibleDrugs: <Drug>[]`
+  - `notes: String`

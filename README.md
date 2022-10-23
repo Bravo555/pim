@@ -34,6 +34,7 @@ przenosić do głównego widoku aplikacji, gdzie użytkownik będzie mógł potw
 
 - `Drug`
   - `name: String`
+  - `dose: String`
   - `takeTimes: <DateTime>[]`
   - `incompatibleDrugs: <Drug>[]`
   - `notes: String`

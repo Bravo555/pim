@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pim/drug_list.dart';
 import 'package:pim/home_page.dart';
 
 class MyPages extends StatefulWidget {
@@ -14,10 +15,7 @@ class _MyPagesState extends State<MyPages> {
 // TODO Implement other pages
   final _widgetOptions = const <Widget>[
     HomePage(),
-    Text(
-      "Drugs",
-      style: TextStyle(color: Colors.white),
-    ),
+    DrugList(),
     Text(
       "Calendar",
       style: TextStyle(color: Colors.white),

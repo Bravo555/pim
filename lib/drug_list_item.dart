@@ -11,10 +11,6 @@ class DrugListItem extends StatelessWidget {
 
   final DateTime nextDoseDate;
 
-  final TextStyle nameStyle =
-      const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
-
-  final TextStyle infoStyle = const TextStyle(color: Colors.grey);
 // TODO Add list items interactions and drug details view
   @override
   Widget build(BuildContext context) {
@@ -25,11 +21,11 @@ class DrugListItem extends StatelessWidget {
         children: [
           Text(
             drugName,
-            style: nameStyle,
+            style: Theme.of(context).textTheme.bodyText1,
           ),
           Text(
             "Next dose ${nextDoseDate.toString().substring(0, 16)}",
-            style: infoStyle,
+            style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
           )
         ],
       ),

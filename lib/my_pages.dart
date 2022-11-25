@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pim/drug_list.dart';
+import 'package:pim/calendar_page.dart';
+import 'package:pim/drug_list_page.dart';
 import 'package:pim/home_page.dart';
 
 class MyPages extends StatefulWidget {
@@ -12,14 +13,10 @@ class MyPages extends StatefulWidget {
 class _MyPagesState extends State<MyPages> {
   int _selectedIndex = 0;
 
-// TODO Implement other pages
   final _widgetOptions = const <Widget>[
     HomePage(),
     DrugList(),
-    Text(
-      "Calendar",
-      style: TextStyle(color: Colors.white),
-    ),
+    CalendarPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -46,45 +43,38 @@ class _MyPagesState extends State<MyPages> {
           )
         ],
       ),
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        backgroundColor: const Color(0xFF222222),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
             label: "HOME",
-            backgroundColor: Color(0xFF222222),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.medication_outlined),
             activeIcon: Icon(Icons.medication),
             label: "DRUGS",
-            backgroundColor: Color(0xFF222222),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_outlined),
             activeIcon: Icon(Icons.calendar_month),
             label: "CALENDAR",
-            backgroundColor: Color(0xFF222222),
           ),
         ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       drawer: Drawer(
-        backgroundColor: const Color(0xFF222222),
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const [
+          children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              child: Text("Header"),
+              child: const Text("Header"),
             ),
           ],
         ),

@@ -6,8 +6,6 @@ class HomePage extends StatelessWidget {
 
   final title = "Home";
 
-  final homeTextStyle = const TextStyle(color: Colors.white);
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -16,9 +14,8 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           DecoratedContainer(
             isColoured: true,
-            child: Text(
-              "",
-              style: homeTextStyle,
+            child: const Text(
+              "Placeholder",
             ),
           ),
           DecoratedContainer(),

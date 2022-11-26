@@ -8,12 +8,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Drugsistant',
       theme: ThemeData(
+        listTileTheme: const ListTileThemeData(
+          shape: Border(bottom: BorderSide(color: Colors.grey)),
+        ),
+        popupMenuTheme: const PopupMenuThemeData(
+          color: Color(0xFF222222),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+        ),
         backgroundColor: Colors.black,
         scaffoldBackgroundColor: Colors.black,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(

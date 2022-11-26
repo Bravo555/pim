@@ -43,7 +43,6 @@ class _MyPagesState extends State<MyPages> {
           )
         ],
       ),
-      // backgroundColor: Colors.black,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -66,19 +65,6 @@ class _MyPagesState extends State<MyPages> {
         ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              child: const Text("Header"),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

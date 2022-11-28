@@ -1,23 +1,42 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pim/drug_list_item.dart';
+import 'package:pim/models/drug.dart';
 
 class DrugList extends StatelessWidget {
   const DrugList({super.key});
+
+  DateTime getTomorrowMorningDose() {
+    return DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 1,
+      9,
+      0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         DrugListItem(
-          drugName: "Espumisan",
-          nextDoseDate: DateTime(2022, 11, 29, 8, 30),
-          id: 1,
+          drug: Drug(
+            id: 1,
+            name: "Espumisan",
+            dosage: "20mg",
+            shouldNotify: true,
+          ),
+          nextDoseDate: getTomorrowMorningDose(),
         ),
         DrugListItem(
-          drugName: "Bianacid",
-          nextDoseDate: DateTime(2022, 12, 1, 9, 0),
-          id: 2,
+          drug: Drug(
+            id: 3,
+            name: "Bianacid",
+            dosage: "40mg",
+            shouldNotify: true,
+          ),
+          nextDoseDate: getTomorrowMorningDose(),
         ),
       ],
     );

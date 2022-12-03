@@ -40,9 +40,16 @@ class _MyPagesState extends State<MyPages> {
                   onPressed: () => {showAboutDialog(context: context)},
                   icon: const Icon(Icons.info)),
             ],
-          )
+          ),
         ],
       ),
+      // TODO: this looks really bad, but I don't really know how to fix it.
+      floatingActionButton: _selectedIndex == 1
+          ? FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () {},
+            )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

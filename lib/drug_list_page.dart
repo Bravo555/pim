@@ -3,43 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:pim/drug_list_item.dart';
 import 'package:pim/models/drug.dart';
 
-class DrugList extends StatelessWidget {
+class DrugList extends StatefulWidget {
   const DrugList({super.key});
 
-  DateTime getTomorrowMorningDose() {
-    return DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day + 1,
-      9,
-      0,
-    );
-  }
+  @override
+  State<StatefulWidget> createState() => _DrugListState();
+}
+
+class _DrugListState extends State<DrugList> {
+  final List<Drug> drugList = <Drug>[
+    Drug(id: 1, name: "Espumisan", dosage: "20mg", notes: ""),
+    Drug(id: 2, name: "Bianacid", dosage: "40mg", notes: "")
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        DrugListItem(
-          drug: Drug(
-            id: 1,
-            name: "Espumisan",
-            dosage: "20mg",
-            shouldNotify: true,
-          ),
-          nextDoseDate: getTomorrowMorningDose(),
-        ),
-        DrugListItem(
-          drug: Drug(
-            id: 3,
-            name: "Bianacid",
-            dosage: "40mg",
-            shouldNotify: true,
-          ),
-          nextDoseDate: getTomorrowMorningDose(),
-        ),
-      ],
-    );
+    return ListView.builder(
+        itemCount: drugList.length,
+        itemBuilder: (context, index) =>
+            _getDrugListItem(index, drugList[index]));
+  }
+
+  Widget _getDrugListItem(int id, Drug drug) =>
+      DrugListItem(drug: drug, onChanged: _onDrugChanged);
+
+  void _onDrugChanged(Drug newDrug) {
+    setState(() {});
   }
 
   @override

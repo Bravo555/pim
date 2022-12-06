@@ -15,7 +15,7 @@ class _MyPagesState extends State<MyPages> {
 
   final _widgetOptions = const <Widget>[
     HomePage(),
-    DrugList(),
+    DrugListPage(),
     CalendarPage(),
   ];
 

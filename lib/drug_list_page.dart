@@ -1,35 +1,27 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pim/drug_list_item.dart';
 import 'package:pim/models/drug.dart';
+import 'package:provider/provider.dart';
+import 'models/drug_list.dart';
 
-class DrugList extends StatefulWidget {
-  const DrugList({super.key});
+class DrugListPage extends StatefulWidget {
+  const DrugListPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _DrugListState();
+  State<StatefulWidget> createState() => _DrugListPageState();
 }
 
-class _DrugListState extends State<DrugList> {
-  final List<Drug> drugList = <Drug>[
-    Drug(id: 1, name: "Espumisan", dosage: "20mg", notes: ""),
-    Drug(id: 2, name: "Bianacid", dosage: "40mg", notes: "")
-  ];
-
+class _DrugListPageState extends State<DrugListPage> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: drugList.length,
-        itemBuilder: (context, index) =>
-            _getDrugListItem(index, drugList[index]));
+    return Consumer<DrugList>(
+        builder: (context, drugList, child) => ListView.builder(
+            itemCount: drugList.items.length,
+            itemBuilder: (context, index) =>
+                _getDrugListItem(index, drugList.items[index])));
   }
 
-  Widget _getDrugListItem(int id, Drug drug) =>
-      DrugListItem(drug: drug, onChanged: _onDrugChanged);
-
-  void _onDrugChanged(Drug newDrug) {
-    setState(() {});
-  }
+  Widget _getDrugListItem(int id, Drug drug) => DrugListItem(drug: drug);
 
   @override
   String toStringShort() {

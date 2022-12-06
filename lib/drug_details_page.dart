@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_data/flutter_data.dart';
+import 'package:provider/provider.dart';
+
 import 'models/drug.dart';
+import 'models/drug_list.dart';
 
 class DrugDetailsPage extends StatefulWidget {
-  const DrugDetailsPage(
-      {super.key, required this.drug, required this.onChanged});
+  const DrugDetailsPage({super.key, required this.drug});
 
-  final ValueChanged<Drug> onChanged;
   final Drug drug;
-  final dynamic _value = "";
 
   @override
   State<DrugDetailsPage> createState() => _DrugDetailsPageState();
@@ -24,8 +23,12 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
     return null;
   }
 
-  _save() {
-    //TODO save details
+  _save(Drug drug) {
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      Provider.of<DrugList>(context, listen: false).editDrug(drug);
+    }
   }
 
   @override
@@ -35,7 +38,7 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
         title: const Text("Drug Details"),
         actions: [
           IconButton(
-            onPressed: _save,
+            onPressed: () => _save(widget.drug),
             icon: const Icon(Icons.save_alt),
           ),
         ],
@@ -53,9 +56,7 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                 hintText: "Drug name",
                 label: Text("Drug name"),
               ),
-              onSaved: (name) => setState(() {
-                if (name != null) widget.drug.name = name;
-              }),
+              onSaved: (name) => {if (name != null) widget.drug.name = name},
             ),
             TextFormField(
                 initialValue: widget.drug.dosage,
@@ -64,27 +65,27 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                   hintText: "Dosage",
                   label: Text("Dosage"),
                 ),
-                onSaved: (dosage) => setState(() {
-                      if (dosage != null) widget.drug.dosage = dosage;
-                    })),
+                onSaved: (dosage) =>
+                    {if (dosage != null) widget.drug.dosage = dosage}),
             DropdownButtonFormField(
-              value: 1,
+              value: widget.drug.frequency,
               hint: const Text("Frequency"),
               items: const [
                 DropdownMenuItem(
-                  value: 1,
+                  value: "Once a day",
                   child: Text("Once a day"),
                 ),
                 DropdownMenuItem(
-                  value: 2,
+                  value: "Twice a day",
                   child: Text("Twice a day"),
                 ),
                 DropdownMenuItem(
-                  value: 3,
+                  value: "Three times a day",
                   child: Text("Three times a day"),
                 ),
               ],
-              onChanged: ((value) => {}),
+              onChanged: ((value) =>
+                  {if (value != null) widget.drug.frequency = value}),
             ),
             TextFormField(
               initialValue: widget.drug.notes,
@@ -107,16 +108,13 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).colorScheme.error),
                     ),
-                    onPressed: () {},
+                    onPressed: () => Navigator.pop(context),
                     child: const Text("Cancel"),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      final form = _formKey.currentState;
-                      if (form!.validate()) {
-                        form.save();
-                        widget.onChanged(widget.drug);
-                      }
+                      _save(widget.drug);
+                      Navigator.of(context).pop();
                     },
                     child: const Text("Save"),
                   ),

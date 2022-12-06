@@ -3,10 +3,9 @@ import 'package:pim/drug_details_page.dart';
 import 'package:pim/models/drug.dart';
 
 class DrugListItem extends StatelessWidget {
-  const DrugListItem({super.key, required this.drug, required this.onChanged});
+  const DrugListItem({super.key, required this.drug});
 
   final Drug drug;
-  final ValueChanged<Drug> onChanged;
 
   DateTime _getDoseDate(Drug drug) => _getTomorrowMorningDose();
 
@@ -27,7 +26,6 @@ class DrugListItem extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => DrugDetailsPage(
             drug: drug,
-            onChanged: onChanged,
           ),
         ),
       );

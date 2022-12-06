@@ -4,14 +4,9 @@ import 'package:pim/models/drug.dart';
 import 'package:provider/provider.dart';
 import 'models/drug_list.dart';
 
-class DrugListPage extends StatefulWidget {
+class DrugListPage extends StatelessWidget {
   const DrugListPage({super.key});
 
-  @override
-  State<StatefulWidget> createState() => _DrugListPageState();
-}
-
-class _DrugListPageState extends State<DrugListPage> {
   @override
   Widget build(BuildContext context) => Consumer<DrugList>(
       builder: (context, drugList, child) => ListView.builder(

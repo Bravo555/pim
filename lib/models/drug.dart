@@ -4,6 +4,8 @@
 enum DosageFrequency { onceADay, twiceADay, thriceADay }
 
 class Drug {
+  static int nextId = 0;
+
   final int id;
   String name;
   String dosage;
@@ -12,13 +14,14 @@ class Drug {
   bool shouldNotify;
 
   Drug({
-    required this.id,
-    required this.name,
-    required this.dosage,
+    this.name = "",
+    this.dosage = "",
     this.frequency = DosageFrequency.onceADay,
     this.notes = "",
     this.shouldNotify = true,
-  });
+  }) : id = nextId {
+    nextId += 1;
+  }
 
   Drug.from(Drug other)
       : id = other.id,

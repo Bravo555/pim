@@ -5,9 +5,15 @@ import 'models/drug.dart';
 import 'models/drug_list.dart';
 
 class DrugDetailsPage extends StatefulWidget {
-  const DrugDetailsPage({super.key, required this.drug});
+  DrugDetailsPage({super.key, Drug? drug}) {
+    if (drug != null) {
+      this.drug = drug;
+      newDrug = false;
+    }
+  }
 
-  final Drug drug;
+  bool newDrug = true;
+  Drug drug = Drug();
 
   @override
   State<DrugDetailsPage> createState() => _DrugDetailsPageState();
@@ -27,7 +33,11 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
     final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
-      Provider.of<DrugList>(context, listen: false).editDrug(drug);
+      if (widget.newDrug) {
+        Provider.of<DrugList>(context, listen: false).add(drug);
+      } else {
+        Provider.of<DrugList>(context, listen: false).editDrug(drug);
+      }
     }
   }
 

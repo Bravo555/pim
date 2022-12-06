@@ -3,6 +3,8 @@ import 'package:pim/calendar_page.dart';
 import 'package:pim/drug_list_page.dart';
 import 'package:pim/home_page.dart';
 
+import 'drug_details_page.dart';
+
 class MyPages extends StatefulWidget {
   const MyPages({super.key});
 
@@ -47,7 +49,14 @@ class _MyPagesState extends State<MyPages> {
       floatingActionButton: _selectedIndex == 1
           ? FloatingActionButton(
               child: const Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DrugDetailsPage(),
+                  ),
+                );
+              },
             )
           : null,
       bottomNavigationBar: BottomNavigationBar(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pim/drug_details_page.dart';
 import 'package:pim/models/drug.dart';
+import 'package:provider/provider.dart';
+
+import 'models/drug_list.dart';
 
 class DrugListItem extends StatelessWidget {
   const DrugListItem({super.key, required this.drug});
@@ -29,8 +32,8 @@ class DrugListItem extends StatelessWidget {
           ),
         ),
       );
-    } else {
-      //TODO impelemt delete
+    } else if (value == 'delete') {
+      Provider.of<DrugList>(context, listen: false).deleteDrug(drug);
     }
   }
 

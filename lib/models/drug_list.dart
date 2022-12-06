@@ -10,13 +10,11 @@ class DrugList extends ChangeNotifier {
   /// Internal, private state of the drug list.
   final List<Drug> _items = [
     Drug(
-        id: 1,
         name: "Espumisan",
         dosage: "20mg",
         notes: "",
         frequency: DosageFrequency.thriceADay),
     Drug(
-        id: 2,
         name: "Bianacid",
         dosage: "40mg",
         notes: "",
@@ -35,6 +33,11 @@ class DrugList extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteDrug(Drug drug) {
+    _items.removeWhere((element) => element.id == drug.id);
+    notifyListeners();
+  }
+
   /// Adds [drug] to the drug list.
   void add(Drug drug) {
     _items.add(drug);
@@ -48,11 +51,11 @@ class DrugList extends ChangeNotifier {
         return List.unmodifiable(_items);
       case DrugTimeOfDay.afternoon:
         return List.unmodifiable(_items.where(
-          (drug) => drug.frequency != DosageFrequency.thriceADay,
+          (drug) => drug.frequency == DosageFrequency.thriceADay,
         ));
       case DrugTimeOfDay.evening:
         return List.unmodifiable(_items.where(
-          (drug) => drug.frequency == DosageFrequency.thriceADay,
+          (drug) => drug.frequency != DosageFrequency.onceADay,
         ));
     }
   }

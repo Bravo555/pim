@@ -1,25 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_data/flutter_data.dart';
-import 'package:json_annotation/json_annotation.dart';
-
 // TODO check what adapter we should use in data repository or scrap that
 // @DataRepository([ConfigureRepositoryLocalStorage], remote: false)
-@JsonSerializable()
-class Drug /*extends DataModel<Drug>*/ {
-  // @override
+
+enum DosageFrequency { onceADay, twiceADay, thriceADay }
+
+class Drug {
+  static int nextId = 0;
+
   final int id;
   String name;
   String dosage;
-  String frequency;
+  DosageFrequency frequency;
   String notes;
   bool shouldNotify;
 
   Drug({
-    required this.id,
-    required this.name,
-    required this.dosage,
-    this.frequency = "Once a day",
+    this.name = "",
+    this.dosage = "",
+    this.frequency = DosageFrequency.onceADay,
     this.notes = "",
-    this.shouldNotify = false,
-  });
+    this.shouldNotify = true,
+  }) : id = nextId {
+    nextId += 1;
+  }
+
+  Drug.from(Drug other)
+      : id = other.id,
+        name = other.name,
+        dosage = other.dosage,
+        frequency = other.frequency,
+        notes = other.notes,
+        shouldNotify = other.shouldNotify;
+
+  @override
+  String toString() => name;
 }

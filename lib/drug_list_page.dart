@@ -1,49 +1,21 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pim/drug_list_item.dart';
 import 'package:pim/models/drug.dart';
+import 'package:provider/provider.dart';
+import 'models/drug_list.dart';
 
-class DrugList extends StatelessWidget {
-  const DrugList({super.key});
-
-  DateTime getTomorrowMorningDose() {
-    return DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day + 1,
-      9,
-      0,
-    );
-  }
+class DrugListPage extends StatelessWidget {
+  const DrugListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        DrugListItem(
-          drug: Drug(
-            id: 1,
-            name: "Espumisan",
-            dosage: "20mg",
-            shouldNotify: true,
-          ),
-          nextDoseDate: getTomorrowMorningDose(),
-        ),
-        DrugListItem(
-          drug: Drug(
-            id: 3,
-            name: "Bianacid",
-            dosage: "40mg",
-            shouldNotify: true,
-          ),
-          nextDoseDate: getTomorrowMorningDose(),
-        ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Consumer<DrugList>(
+      builder: (context, drugList, child) => ListView.builder(
+          itemCount: drugList.items.length,
+          itemBuilder: (context, index) =>
+              _getDrugListItem(index, drugList.items[index])));
+
+  Widget _getDrugListItem(int id, Drug drug) => DrugListItem(drug: drug);
 
   @override
-  String toStringShort() {
-    return "Drug List";
-  }
+  String toStringShort() => "Drug List";
 }

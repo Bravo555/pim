@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_data/flutter_data.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+import 'models/drug_list.dart';
 import 'my_pages.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => DrugList(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

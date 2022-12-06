@@ -3,6 +3,8 @@ import 'package:pim/calendar_page.dart';
 import 'package:pim/drug_list_page.dart';
 import 'package:pim/home_page.dart';
 
+import 'drug_details_page.dart';
+
 class MyPages extends StatefulWidget {
   const MyPages({super.key});
 
@@ -15,7 +17,7 @@ class _MyPagesState extends State<MyPages> {
 
   final _widgetOptions = const <Widget>[
     HomePage(),
-    DrugList(),
+    DrugListPage(),
     CalendarPage(),
   ];
 
@@ -40,9 +42,23 @@ class _MyPagesState extends State<MyPages> {
                   onPressed: () => {showAboutDialog(context: context)},
                   icon: const Icon(Icons.info)),
             ],
-          )
+          ),
         ],
       ),
+      // TODO: this looks really bad, but I don't really know how to fix it.
+      floatingActionButton: _selectedIndex == 1
+          ? FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DrugDetailsPage(),
+                  ),
+                );
+              },
+            )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

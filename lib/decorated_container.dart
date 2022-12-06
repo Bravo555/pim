@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:timer_builder/timer_builder.dart';
 import 'models/drug.dart';
 
 class DecoratedContainer extends StatelessWidget {
-  DecoratedContainer({super.key, required this.drugs, this.isColoured = false});
+  DecoratedContainer(
+      {super.key,
+      required this.drugs,
+      required this.timeOfDay,
+      this.isColoured = false});
 
-  final List<Drug> drugs;
+  final TimeOfDay timeOfDay;
+  final Iterable<Drug> drugs;
 
   final bool isColoured;
 
@@ -21,34 +27,43 @@ class DecoratedContainer extends StatelessWidget {
     border: const Border(),
   );
 
-  Widget getDrugsAsWidgets(List<Drug> drugs) {
-    List<Widget> widgets = List<Widget>.empty(growable: true);
-    for (var i = 0; i < drugs.length; i++) {
-      if (drugs.elementAt(i).shouldNotify) {
-        widgets.add(
-            Text("${drugs.elementAt(i).name} ${drugs.elementAt(i).dosage}"));
-      }
-    }
-    return Column(
+  Widget _getDrugsAsWidgets(Iterable<Drug> drugs) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
-    );
-  }
+      children: drugs
+          .where((drug) => drug.shouldNotify)
+          .map((drug) => Text("${drug.name} ${drug.dosage}"))
+          .toList());
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: homeBoxDecoration,
+      padding: const EdgeInsets.all(8.0),
       width: 300,
       height: 150,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          getDrugsAsWidgets(drugs),
-          const Text("Date when to take the dose"),
+          _getDrugsAsWidgets(drugs),
+          Text(
+            _getTimeUntil(timeOfDay),
+            textAlign: TextAlign.end,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
         ],
       ),
     );
+  }
+
+  String _getTimeUntil(TimeOfDay other) {
+    DateTime now = DateTime.now();
+    int day = (now.hour < other.hour) ||
+            (now.hour == other.hour && now.minute <= other.minute)
+        ? now.day
+        : now.day + 1;
+    DateTime until =
+        DateTime(now.year, now.month, day, other.hour, other.minute);
+    return until.difference(now).toString().split(".")[0];
   }
 }

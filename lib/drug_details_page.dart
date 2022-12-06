@@ -1,11 +1,19 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'models/drug.dart';
+import 'models/drug_list.dart';
 
 class DrugDetailsPage extends StatefulWidget {
-  const DrugDetailsPage({super.key, required this.id});
+  DrugDetailsPage({super.key, Drug? drug}) {
+    if (drug != null) {
+      this.drug = drug;
+      newDrug = false;
+    }
+  }
 
-  final int id;
+  bool newDrug = true;
+  Drug drug = Drug();
 
   @override
   State<DrugDetailsPage> createState() => _DrugDetailsPageState();
@@ -14,8 +22,6 @@ class DrugDetailsPage extends StatefulWidget {
 class _DrugDetailsPageState extends State<DrugDetailsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  dynamic _value;
-
   _validate(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please fill this field';
@@ -23,8 +29,16 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
     return null;
   }
 
-  _save() {
-    //TODO save details
+  _save(Drug drug) {
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      if (widget.newDrug) {
+        Provider.of<DrugList>(context, listen: false).add(drug);
+      } else {
+        Provider.of<DrugList>(context, listen: false).editDrug(drug);
+      }
+    }
   }
 
   @override
@@ -34,7 +48,7 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
         title: const Text("Drug Details"),
         actions: [
           IconButton(
-            onPressed: _save,
+            onPressed: () => _save(widget.drug),
             icon: const Icon(Icons.save_alt),
           ),
         ],
@@ -45,40 +59,46 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
           padding: const EdgeInsets.all(8),
           children: [
             TextFormField(
+              initialValue: widget.drug.name,
               keyboardType: TextInputType.text,
               validator: (value) => _validate(value),
               decoration: const InputDecoration(
                 hintText: "Drug name",
                 label: Text("Drug name"),
               ),
+              onSaved: (name) => {if (name != null) widget.drug.name = name},
             ),
             TextFormField(
-              validator: (value) => _validate(value),
-              decoration: const InputDecoration(
-                hintText: "Dosage",
-                label: Text("Dosage"),
-              ),
-            ),
+                initialValue: widget.drug.dosage,
+                validator: (value) => _validate(value),
+                decoration: const InputDecoration(
+                  hintText: "Dosage",
+                  label: Text("Dosage"),
+                ),
+                onSaved: (dosage) =>
+                    {if (dosage != null) widget.drug.dosage = dosage}),
             DropdownButtonFormField(
-              value: _value,
+              value: widget.drug.frequency,
               hint: const Text("Frequency"),
               items: const [
                 DropdownMenuItem(
-                  value: 1,
+                  value: DosageFrequency.onceADay,
                   child: Text("Once a day"),
                 ),
                 DropdownMenuItem(
-                  value: 2,
+                  value: DosageFrequency.twiceADay,
                   child: Text("Twice a day"),
                 ),
                 DropdownMenuItem(
-                  value: 3,
+                  value: DosageFrequency.thriceADay,
                   child: Text("Three times a day"),
                 ),
               ],
-              onChanged: ((value) => {_value = value}),
+              onChanged: ((value) =>
+                  {if (value != null) widget.drug.frequency = value}),
             ),
             TextFormField(
+              initialValue: widget.drug.notes,
               keyboardType: TextInputType.multiline,
               minLines: 3,
               maxLines: 3,
@@ -98,11 +118,14 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).colorScheme.error),
                     ),
-                    onPressed: () {},
+                    onPressed: () => Navigator.pop(context),
                     child: const Text("Cancel"),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _save(widget.drug);
+                      Navigator.of(context).pop();
+                    },
                     child: const Text("Save"),
                   ),
                 ],

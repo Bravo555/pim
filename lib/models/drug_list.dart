@@ -4,11 +4,23 @@ import 'package:flutter/material.dart';
 
 import 'drug.dart';
 
+enum DrugTimeOfDay { morning, afternoon, evening }
+
 class DrugList extends ChangeNotifier {
   /// Internal, private state of the drug list.
   final List<Drug> _items = [
-    Drug(id: 1, name: "Espumisan", dosage: "20mg", notes: ""),
-    Drug(id: 2, name: "Bianacid", dosage: "40mg", notes: "")
+    Drug(
+        id: 1,
+        name: "Espumisan",
+        dosage: "20mg",
+        notes: "",
+        frequency: DosageFrequency.thriceADay),
+    Drug(
+        id: 2,
+        name: "Bianacid",
+        dosage: "40mg",
+        notes: "",
+        frequency: DosageFrequency.onceADay)
   ];
 
   /// An unmodifiable view of the all the drugs
@@ -28,5 +40,20 @@ class DrugList extends ChangeNotifier {
     _items.add(drug);
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
+  }
+
+  Iterable<Drug> drugsForTimeOfDay(DrugTimeOfDay timeOfDay) {
+    switch (timeOfDay) {
+      case DrugTimeOfDay.morning:
+        return List.unmodifiable(_items);
+      case DrugTimeOfDay.afternoon:
+        return List.unmodifiable(_items.where(
+          (drug) => drug.frequency != DosageFrequency.thriceADay,
+        ));
+      case DrugTimeOfDay.evening:
+        return List.unmodifiable(_items.where(
+          (drug) => drug.frequency == DosageFrequency.thriceADay,
+        ));
+    }
   }
 }

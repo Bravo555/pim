@@ -72,15 +72,15 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
               hint: const Text("Frequency"),
               items: const [
                 DropdownMenuItem(
-                  value: "Once a day",
+                  value: DosageFrequency.onceADay,
                   child: Text("Once a day"),
                 ),
                 DropdownMenuItem(
-                  value: "Twice a day",
+                  value: DosageFrequency.twiceADay,
                   child: Text("Twice a day"),
                 ),
                 DropdownMenuItem(
-                  value: "Three times a day",
+                  value: DosageFrequency.thriceADay,
                   child: Text("Three times a day"),
                 ),
               ],

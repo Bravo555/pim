@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'models/drug_list.dart';
 import 'my_pages.dart';
 
@@ -8,8 +9,20 @@ void main() {
       create: (context) => DrugList(), child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    DrugList.readDrugList().then((drugList) =>
+        Provider.of<DrugList>(context, listen: false).setItems(drugList));
+  }
 
   @override
   Widget build(BuildContext context) {

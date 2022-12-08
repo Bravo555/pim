@@ -46,11 +46,13 @@ class DecoratedContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _getDrugsAsWidgets(drugs),
-          Text(
-            _getTimeUntil(timeOfDay),
-            textAlign: TextAlign.end,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
+          TimerBuilder.periodic(const Duration(seconds: 1),
+              builder: (context) => Text(
+                    _getTimeUntil(timeOfDay),
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 24),
+                  )),
         ],
       ),
     );

@@ -29,15 +29,14 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
     return null;
   }
 
-  _save(Drug drug) {
-    final form = _formKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      if (widget.newDrug) {
-        Provider.of<DrugList>(context, listen: false).add(drug);
-      } else {
-        Provider.of<DrugList>(context, listen: false).editDrug(drug);
-      }
+  _save() {
+    final form = _formKey.currentState!;
+    form.save();
+    final drug = widget.drug;
+    if (widget.newDrug) {
+      Provider.of<DrugList>(context, listen: false).add(drug);
+    } else {
+      Provider.of<DrugList>(context, listen: false).editDrug(drug);
     }
   }
 
@@ -48,7 +47,14 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
         title: const Text("Drug Details"),
         actions: [
           IconButton(
-            onPressed: () => _save(widget.drug),
+            onPressed: () {
+              final form = _formKey.currentState;
+              if (form == null) return;
+              if (form.validate()) {
+                _save();
+                Navigator.of(context).pop();
+              }
+            },
             icon: const Icon(Icons.save_alt),
           ),
         ],
@@ -66,7 +72,7 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                 hintText: "Drug name",
                 label: Text("Drug name"),
               ),
-              onSaved: (name) => {if (name != null) widget.drug.name = name},
+              onSaved: (name) => widget.drug.name = name!,
             ),
             TextFormField(
                 initialValue: widget.drug.dosage,
@@ -75,8 +81,7 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                   hintText: "Dosage",
                   label: Text("Dosage"),
                 ),
-                onSaved: (dosage) =>
-                    {if (dosage != null) widget.drug.dosage = dosage}),
+                onSaved: (dosage) => widget.drug.dosage = dosage!),
             DropdownButtonFormField(
               value: widget.drug.frequency,
               hint: const Text("Frequency"),
@@ -123,8 +128,12 @@ class _DrugDetailsPageState extends State<DrugDetailsPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _save(widget.drug);
-                      Navigator.of(context).pop();
+                      final form = _formKey.currentState;
+                      if (form == null) return;
+                      if (form.validate()) {
+                        _save();
+                        Navigator.of(context).pop();
+                      }
                     },
                     child: const Text("Save"),
                   ),

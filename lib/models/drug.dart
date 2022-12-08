@@ -1,6 +1,3 @@
-// TODO check what adapter we should use in data repository or scrap that
-// @DataRepository([ConfigureRepositoryLocalStorage], remote: false)
-
 enum DosageFrequency { onceADay, twiceADay, thriceADay }
 
 class Drug {
@@ -31,6 +28,23 @@ class Drug {
         notes = other.notes,
         shouldNotify = other.shouldNotify;
 
+  Drug.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        dosage = json['dosage'],
+        frequency = DosageFrequency.values.byName(json['frequency']),
+        notes = json['notes'],
+        shouldNotify = json['shouldNotify'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'dosage': dosage,
+        'frequency': frequency.name,
+        'notes': notes,
+        'shouldNotify': shouldNotify,
+      };
+
   @override
-  String toString() => name;
+  String toString() => toJson().toString();
 }

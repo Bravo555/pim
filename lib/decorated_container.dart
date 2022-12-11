@@ -60,10 +60,9 @@ class DecoratedContainer extends StatelessWidget {
 
   String _getTimeUntil(TimeOfDay other) {
     DateTime now = DateTime.now();
-    int day = (now.hour < other.hour) ||
-            (now.hour == other.hour && now.minute <= other.minute)
-        ? now.day
-        : now.day + 1;
+    DateTime timeOfDrug =
+        DateTime(now.year, now.month, now.day, other.hour, other.minute);
+    int day = now.isBefore(timeOfDrug) ? now.day : now.day + 1;
     DateTime until =
         DateTime(now.year, now.month, day, other.hour, other.minute);
     return until.difference(now).toString().split(".")[0];

@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:pim/time_utils.dart';
 import 'package:provider/provider.dart';
 
 import 'models/drug_list.dart';
+import 'models/times_of_day.dart';
 import 'my_pages.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => DrugList(), child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => DrugList()),
+    ChangeNotifierProvider(create: (context) => TimesOfDay())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -22,6 +28,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     DrugList.readDrugList().then((drugList) =>
         Provider.of<DrugList>(context, listen: false).setItems(drugList));
+    TimesOfDay.readTimesOfDay().then((timesOfDay) =>
+        Provider.of<TimesOfDay>(context, listen: false)
+            .setTimesOfDay(timesOfDay));
   }
 
   @override

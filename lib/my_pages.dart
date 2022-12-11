@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pim/calendar_page.dart';
+import 'package:pim/preferences_page.dart';
 import 'package:pim/drug_list_page.dart';
 import 'package:pim/home_page.dart';
 
@@ -18,7 +18,7 @@ class _MyPagesState extends State<MyPages> {
   final _widgetOptions = const <Widget>[
     HomePage(),
     DrugListPage(),
-    CalendarPage(),
+    PreferencesPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -74,9 +74,9 @@ class _MyPagesState extends State<MyPages> {
             label: "DRUGS",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month_outlined),
-            activeIcon: Icon(Icons.calendar_month),
-            label: "CALENDAR",
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: "PREFERENCES",
           ),
         ],
       ),

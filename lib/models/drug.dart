@@ -1,3 +1,5 @@
+import 'package:pim/time_utils.dart';
+
 enum DosageFrequency { onceADay, twiceADay, thriceADay }
 
 class Drug {
@@ -44,6 +46,21 @@ class Drug {
         'notes': notes,
         'shouldNotify': shouldNotify,
       };
+
+  Iterable<DrugTimeOfDay> toDrugTimesOfDay() {
+    switch (frequency) {
+      case DosageFrequency.onceADay:
+        return [DrugTimeOfDay.morning];
+      case DosageFrequency.twiceADay:
+        return [DrugTimeOfDay.morning, DrugTimeOfDay.evening];
+      case DosageFrequency.thriceADay:
+        return [
+          DrugTimeOfDay.morning,
+          DrugTimeOfDay.afternoon,
+          DrugTimeOfDay.evening
+        ];
+    }
+  }
 
   @override
   String toString() => toJson().toString();

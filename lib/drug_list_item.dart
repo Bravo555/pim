@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pim/drug_details_page.dart';
 import 'package:pim/models/drug.dart';
+import 'package:pim/time_utils.dart';
 import 'package:provider/provider.dart';
 
 import 'models/drug_list.dart';
+import 'package:pim/models/times_of_day.dart';
 
 class DrugListItem extends StatelessWidget {
   const DrugListItem({super.key, required this.drug});
 
   final Drug drug;
 
-  DateTime _getDoseDate(Drug drug) => _getTomorrowMorningDose();
+  DateTime _getDoseDate(Drug drug, BuildContext context) =>
+      Provider.of<TimesOfDay>(context, listen: false).getDrugNextDoseDate(drug);
 
   DateTime _getTomorrowMorningDose() {
     return DateTime(
@@ -43,8 +46,8 @@ class DrugListItem extends StatelessWidget {
     return ListTile(
       enabled: true,
       title: Text(drug.name),
-      subtitle:
-          Text("Next dose ${_getDoseDate(drug).toString().substring(0, 16)}"),
+      subtitle: Text(
+          "Next dose ${_getDoseDate(drug, context).toString().substring(0, 16)}"),
       trailing: PopupMenuButton(
         onSelected: (value) => _onSelected(context, value),
         icon: const Icon(Icons.more_vert),

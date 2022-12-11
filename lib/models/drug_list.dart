@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'drug.dart';
-
-enum DrugTimeOfDay { morning, afternoon, evening }
+import 'package:pim/time_utils.dart';
 
 class DrugList extends ChangeNotifier {
   DrugList();
@@ -48,10 +47,7 @@ class DrugList extends ChangeNotifier {
 
   static Future<List<Drug>> readDrugList() async {
     final file = await _localFile;
-    print(file.path);
-
     final contents = await file.readAsString();
-    print(contents);
 
     final dynList = jsonDecode(contents) as List<dynamic>;
     final drugList =
@@ -70,12 +66,7 @@ class DrugList extends ChangeNotifier {
 
   /// Modifies item
   void editDrug(Drug other) {
-    print("running edit function\n");
-    print("new drug: ");
-    print(other);
     final idx = _items.indexWhere((element) => element.id == other.id);
-    print("\nold drug: ");
-    print(_items[idx]);
     _items.removeAt(idx);
     _items.insert(idx, other);
 
@@ -97,18 +88,6 @@ class DrugList extends ChangeNotifier {
     notifyListeners();
   }
 
-  Iterable<Drug> drugsForTimeOfDay(DrugTimeOfDay timeOfDay) {
-    switch (timeOfDay) {
-      case DrugTimeOfDay.morning:
-        return List.unmodifiable(_items);
-      case DrugTimeOfDay.afternoon:
-        return List.unmodifiable(_items.where(
-          (drug) => drug.frequency == DosageFrequency.thriceADay,
-        ));
-      case DrugTimeOfDay.evening:
-        return List.unmodifiable(_items.where(
-          (drug) => drug.frequency != DosageFrequency.onceADay,
-        ));
-    }
-  }
+  Iterable<Drug> drugsForTimeOfDay(DrugTimeOfDay timeOfDay) =>
+      _items.where((drug) => drug.toDrugTimesOfDay().contains(timeOfDay));
 }
